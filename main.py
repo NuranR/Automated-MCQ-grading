@@ -1,12 +1,10 @@
-import cv2
 import cv2 as cv
-import numpy
 import numpy as np
 import openpyxl
 
 import utils
 ##########################################
-# PARAMETERS
+# parameters
 path = 'imgs/1.png'
 heightImg = 700
 widthImg = 700
@@ -81,13 +79,13 @@ if biggestContour.size != 0 and gradePoints.size != 0:
     countC = 0
     for image in boxes:
         # cv2.imshow(str(countR)+str(countC),image)
-        totalPixels = cv2.countNonZero(image)
+        totalPixels = cv.countNonZero(image)
         myPixelVal[countR][countC] = totalPixels
         countC += 1
         if (countC == choices): countC = 0;countR += 1
     # print(myPixelVal)
 
-    # FIND THE USER ANSWERS AND PUT THEM IN A LIST
+    # find student answer and enter to a list
     myIndex = []
     for x in range(0, questions):
         arr = myPixelVal[x]
@@ -95,15 +93,14 @@ if biggestContour.size != 0 and gradePoints.size != 0:
         myIndex.append(myIndexVal[0][0])
     # print("USER ANSWERS",myIndex)
 
-    # COMPARE THE VALUES TO FIND THE CORRECT ANSWERS
+    # compare the answers and obtain the score
     grading = []
     for x in range(0, questions):
         if ans[x] == myIndex[x]:
             grading.append(1)
         else:
             grading.append(0)
-    # print("GRADING",grading)
-    score = (sum(grading) / questions) * 100  # FINAL GRADE
+    score = (sum(grading) / questions) * 100  # final score
     print("SCORE",score)
 
 

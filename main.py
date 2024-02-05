@@ -5,7 +5,7 @@ import openpyxl
 import utils
 ##########################################
 # parameters
-path = 'imgs/1.png'
+path = 'imgs/test_1.png'
 heightImg = 700
 widthImg = 700
 questions = 5
@@ -20,7 +20,7 @@ cell_range = worksheet['B2:B6']
 ans = []
 for cell in cell_range:
     ans.append(cell[0].value)
-print("Ans: ",ans)
+print("Marking Scheme Answers: ",ans)
 
 
 
@@ -42,11 +42,30 @@ cv.drawContours(imgContours,contours,-1,(0,255,0),10)
 rectCon = utils.rectContour(contours)
 biggestContour = utils.getCornerPoints(rectCon[0])
 gradePoints = utils.getCornerPoints(rectCon[1])
+
+# get the 2 biggest contours and determine the left and right
+new_contours = [biggestContour, gradePoints]
+
+point_of_interest = (0,0)
+min_distance = float('inf')
+for i in range(len(new_contours)):
+    contour = contours[i]
+    x,y,w,h = cv.boundingRect(contour)
+    distance = np.sqrt(x**2 + y**2)
+    if distance < min_distance:
+        min_distance = distance
+        left_contour = contour
+        left_contour_index = i
+if i==0:
+    right_contour = new_contours[1]
+else:
+    right_contour = new_contours[0]
+
 #print(biggestContour.shape)
 
 if biggestContour.size != 0 and gradePoints.size != 0:
-    cv.drawContours(imgBiggestContours,biggestContour,-1,(0,255,0),20)
-    cv.drawContours(imgBiggestContours, gradePoints, -1, (255, 0, 0), 20)
+    cv.drawContours(imgBiggestContours,left_contour,-1,(0,0,255),20)
+    cv.drawContours(imgBiggestContours, right_contour, -1, (255, 0, 0), 20)
 
     biggestContour = utils.reorder(biggestContour)
     gradePoints = utils.reorder(gradePoints)
@@ -83,7 +102,7 @@ if biggestContour.size != 0 and gradePoints.size != 0:
         myPixelVal[countR][countC] = totalPixels
         countC += 1
         if (countC == choices): countC = 0;countR += 1
-    # print(myPixelVal)
+    print(myPixelVal)
 
     # find student answer and enter to a list
     myIndex = []
@@ -91,7 +110,7 @@ if biggestContour.size != 0 and gradePoints.size != 0:
         arr = myPixelVal[x]
         myIndexVal = np.where(arr == np.amax(arr))
         myIndex.append(myIndexVal[0][0])
-    # print("USER ANSWERS",myIndex)
+    print("Student Answers:",myIndex)
 
     # compare the answers and obtain the score
     grading = []

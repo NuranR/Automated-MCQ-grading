@@ -44,13 +44,14 @@ def rectContour(contours):
     max_area = 0
     for i in contours:
         area = cv.contourArea(i)
-        if area > 50:
+        #print(area)
+        if area > 10000:
             peri = cv.arcLength(i, True)
             approx = cv.approxPolyDP(i, 0.02 * peri, True)
             if len(approx) == 4:
                 rectCon.append(i)
     rectCon = sorted(rectCon, key=cv.contourArea,reverse=True)
-    # print(len(rectCon))
+    #print(rectCon)
     return rectCon
 
 
@@ -77,7 +78,7 @@ def reorder(my_points):
 
 
 def splitBoxes(img):
-    rows = np.vsplit(img,5)
+    rows = np.vsplit(img,25)
     boxes=[]
     for r in rows:
         cols= np.hsplit(r,5)

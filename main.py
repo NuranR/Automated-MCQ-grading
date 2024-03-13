@@ -5,7 +5,7 @@ import openpyxl
 import utils
 ##########################################
 # parameters
-path = 'imgs/mcq-marked-zz.png'
+path = 'test_imgs/s1.jpg'
 heightImg = 850
 widthImg = 600
 questions = 50
@@ -106,7 +106,7 @@ if biggestContour1.size != 0 and biggestContour2.size != 0:
         myPixelVal[countR][countC] = totalPixels
         countC += 1
         if (countC == choices): countC = 0;countR += 1
-    #print(myPixelVal)
+    print(myPixelVal)
 
     ### split boxes of right side
     boxes = utils.splitBoxes(imgThreshR)
@@ -123,7 +123,7 @@ if biggestContour1.size != 0 and biggestContour2.size != 0:
         if (countC == choices):
             countC = 0
             countR += 1
-    #print(myPixelVal)
+    print(myPixelVal)
 
     # find student answer and enter to a list
     myIndex = []
@@ -149,7 +149,7 @@ imgArray = ([img,imgGray,imgBlur,imgCanny],
             [imgContours,imgBiggestContours,imgWarpColored,imgThreshR])
 imgStack = utils.stackImages(imgArray,0.4)
 
-#cv.imshow("Image Stack",imgStack)
+cv.imshow("Image Stack",imgStack)
 #cv.imshow("Image Stack",imgBiggestContours)
 
-#cv.waitKey(0)
+cv.waitKey(0)

@@ -5,7 +5,7 @@ import openpyxl
 import utils
 ##########################################
 # parameters
-path = 'test_imgs/s1.jpg'
+path = 'test_imgs/b1.jpg'
 heightImg = 850
 widthImg = 600
 questions = 50
